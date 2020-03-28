@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/nextdoor?serverTimezone=Europe/Bucharest
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+app:
+  jwtSecret: test
+  jwtExpirationInMs: 1000
