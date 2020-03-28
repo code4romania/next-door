@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
 
     private final EmergencyContactRepository emergencyContactRepository;
 
+    @Autowired
     public EmergencyContactServiceImpl(EmergencyContactRepository emergencyContactRepository) {
         this.emergencyContactRepository = emergencyContactRepository;
     }
@@ -24,49 +26,34 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
         EmergencyContact emergencyContact = mapDtoToEntity(emergencyContactDto);
         EmergencyContact emergencyContactDB = emergencyContactRepository.save(emergencyContact);
 
-        return mapDtoToDTO(emergencyContactDB);
+        return mapEntityToDto(emergencyContactDB);
     }
 
     @Override
     public EmergencyContactDto update(EmergencyContactDto emergencyContactDto) {
-        Optional<EmergencyContact> dbEntity = emergencyContactRepository.findById(
-            UUID.fromString(emergencyContactDto.getId()));
-
-        if (dbEntity.isPresent()) {
-            EmergencyContact dbEmergencyContact = dbEntity.get();
-            dbEmergencyContact.setAddress(emergencyContactDto.getAddress());
-            dbEmergencyContact.setEmail(emergencyContactDto.getEmail());
-            dbEmergencyContact.setName(emergencyContactDto.getName());
-            dbEmergencyContact.setSurname(emergencyContactDto.getSurname());
-            dbEmergencyContact.setTelephoneNumber(emergencyContactDto.getTelephoneNumber());
-            return mapDtoToDTO(emergencyContactRepository.save(dbEmergencyContact));
-        } else {
-            return save(emergencyContactDto);
-        }
+        return emergencyContactRepository.findById(UUID.fromString(emergencyContactDto.getId()))
+            .map(emergencyContact -> updateEntityWithDataFromDto(emergencyContact, emergencyContactDto))
+            .map(emergencyContactRepository::save)
+            .map(this::mapEntityToDto)
+            .orElseGet(() -> save(emergencyContactDto));
     }
 
     @Override
     public void deleteById(String id) {
-        Optional<EmergencyContact> dbEntity = emergencyContactRepository.findById(
-            UUID.fromString(id));
-
-        if (dbEntity.isPresent()) {
-            emergencyContactRepository.deleteById(UUID.fromString(id));
-        }
+        emergencyContactRepository.deleteById(UUID.fromString(id));
     }
 
     @Override
-    public EmergencyContactDto findByUUID(String id) {
+    public Optional<EmergencyContactDto> findByUUID(String id) {
         return emergencyContactRepository.findById(UUID.fromString(id))
-            .map(this::mapDtoToDTO)
-            .orElse(null);
+            .map(this::mapEntityToDto);
     }
 
     @Override
     public List<EmergencyContactDto> findAll() {
         return emergencyContactRepository.findAll()
             .stream()
-            .map(this::mapDtoToDTO)
+            .map(this::mapEntityToDto)
             .collect(Collectors.toList());
     }
 
@@ -80,7 +67,7 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
             .build();
     }
 
-    private EmergencyContactDto mapDtoToDTO(EmergencyContact emergencyContact) {
+    private EmergencyContactDto mapEntityToDto(EmergencyContact emergencyContact) {
         return EmergencyContactDto.builder()
             .id(String.valueOf(emergencyContact.getId()))
             .name(emergencyContact.getName())
@@ -89,5 +76,16 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
             .email(emergencyContact.getEmail())
             .telephoneNumber(emergencyContact.getTelephoneNumber())
             .build();
+    }
+
+    private EmergencyContact updateEntityWithDataFromDto(EmergencyContact emergencyContact, EmergencyContactDto emergencyContactDto) {
+        emergencyContact.setAddress(emergencyContactDto.getAddress());
+        emergencyContact.setEmail(emergencyContactDto.getEmail());
+        emergencyContact.setSurname(emergencyContactDto.getSurname());
+        emergencyContact.setName(emergencyContactDto.getName());
+        emergencyContact.setName(emergencyContactDto.getName());
+        emergencyContact.setTelephoneNumber(emergencyContactDto.getTelephoneNumber());
+
+        return emergencyContact;
     }
 }

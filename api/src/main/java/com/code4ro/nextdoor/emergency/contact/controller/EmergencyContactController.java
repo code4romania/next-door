@@ -6,7 +6,8 @@ import com.code4ro.nextdoor.emergency.contact.service.EmergencyContactService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ public class EmergencyContactController {
 
     private final EmergencyContactService emergencyContactService;
 
+    @Autowired
     public EmergencyContactController(EmergencyContactService emergencyContactService) {
         this.emergencyContactService = emergencyContactService;
     }
@@ -58,14 +60,11 @@ public class EmergencyContactController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Gets an Emergency Contact by id")
     public ResponseEntity<EmergencyContactDto> getById(@PathVariable("id") String id) {
-        final EmergencyContactDto emergencyContactDto =
+        Optional<EmergencyContactDto> emergencyContactDto =
             emergencyContactService.findByUUID(id);
 
-        if (Objects.isNull(emergencyContactDto)) {
-            throw new NextDoorValidationException("id.not.found", HttpStatus.NOT_FOUND);
-        }
-
-        return ResponseEntity.ok(emergencyContactDto);
+        return emergencyContactDto.map(ResponseEntity::ok)
+            .orElseThrow(() -> new NextDoorValidationException("id.not.found", HttpStatus.NOT_FOUND));
     }
 
     @GetMapping

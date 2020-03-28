@@ -1,14 +1,12 @@
 package com.code4ro.nextdoor.emergency.contact.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.code4ro.nextdoor.emergency.contact.dto.EmergencyContactDto;
 import com.code4ro.nextdoor.emergency.contact.entity.EmergencyContact;
-import com.code4ro.nextdoor.emergency.contact.mapper.EmergencyContactMapper;
 import com.code4ro.nextdoor.emergency.contact.repository.EmergencyContactRepository;
 import com.code4ro.nextdoor.emergency.contact.service.impl.EmergencyContactServiceImpl;
 import java.util.Arrays;
@@ -32,9 +30,6 @@ public class EmergencyContactServiceImplTest {
 
     @Mock
     private EmergencyContactRepository emergencyContactRepository;
-
-    @Mock
-    private EmergencyContactMapper emergencyContactMapper;
 
     private static EmergencyContact emergencyContact =
         EmergencyContact.builder()
@@ -65,13 +60,13 @@ public class EmergencyContactServiceImplTest {
         when(emergencyContactRepository.findById(UID)).
             thenReturn(Optional.of(getEmergencyContactWithId(emergencyContact)));
 
-        EmergencyContactDto result = underTest.findByUUID(ID);
+        Optional<EmergencyContactDto> result = underTest.findByUUID(ID);
 
-        assertEquals(emergencyContact.getAddress(), result.getAddress());
-        assertEquals(emergencyContact.getEmail(), result.getEmail());
-        assertEquals(emergencyContact.getName(), result.getName());
-        assertEquals(emergencyContact.getSurname(), result.getSurname());
-        assertEquals(emergencyContact.getTelephoneNumber(), result.getTelephoneNumber());
+        assertEquals(emergencyContact.getAddress(), result.get().getAddress());
+        assertEquals(emergencyContact.getEmail(), result.get().getEmail());
+        assertEquals(emergencyContact.getName(), result.get().getName());
+        assertEquals(emergencyContact.getSurname(), result.get().getSurname());
+        assertEquals(emergencyContact.getTelephoneNumber(), result.get().getTelephoneNumber());
     }
 
     @Test
@@ -79,15 +74,13 @@ public class EmergencyContactServiceImplTest {
         when(emergencyContactRepository.findById(UID)).
             thenReturn(Optional.empty());
 
-        EmergencyContactDto result = underTest.findByUUID(ID);
+        Optional<EmergencyContactDto> result = underTest.findByUUID(ID);
 
-        assertNull(result);
+       assertEquals(Optional.empty(), result);
     }
 
     @Test
     public void testDeleteById() {
-        when(emergencyContactRepository.findById(UID))
-            .thenReturn(Optional.of(getEmergencyContactWithId(emergencyContact)));
         doNothing().when(emergencyContactRepository).deleteById(UID);
 
         underTest.deleteById(ID);
