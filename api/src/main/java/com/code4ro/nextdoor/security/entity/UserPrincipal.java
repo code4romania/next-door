@@ -2,13 +2,15 @@ package com.code4ro.nextdoor.security.entity;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.code4ro.nextdoor.authentication.entity.User;
 import com.code4ro.nextdoor.authentication.entity.Role;
+import com.code4ro.nextdoor.authentication.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +31,10 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+    	if (this.getUserRole() == null) {
+    		return Collections.emptyList();
+    	}
+        return List.of(new SimpleGrantedAuthority(this.getUserRole().toString()));
     }
 
     @Override
