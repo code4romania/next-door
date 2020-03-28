@@ -21,6 +21,8 @@ In a second release of the app we aim to allow users to also add their local bus
 
 This project is built by amazing volunteers and you can be one of them! Here's a list of ways in [which you can contribute to this project](.github/CONTRIBUTING.md). If you want to make any change to this repository, please **make a fork first**.
 
+Help us out by testing this project in the [staging environment](https://next-door.now.sh/). If you see something that doesn't quite work the way you expect it to, open an Issue. Make sure to describe what you expect to happen and what is actually happening in detail.
+
 If you would like to suggest new functionality, open an Issue and mark it as a __[Feature request]__. Please be specific about why you think this functionality will be of use. If you can, please include some visual description of what you would like the UI to look like, if you are suggesting new UI elements.
 
 ## Built With
