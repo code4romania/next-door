@@ -24,17 +24,18 @@ This project is built by amazing volunteers and you can be one of them! Here's a
 You can also list any pending features and planned improvements for the project here.
 
 ## Built With
-
 ### Programming languages
-
+Backend: Java 11
 ### Platforms
-
+Spring 2.2
 ### Frontend framework
-
+React
 ### Package managers
+gradle
 
+yarn
 ### Database technology & provider
-
+MySQL
 ## Repos and projects
 
 Mention all related repos and projects.
