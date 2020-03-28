@@ -8,6 +8,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  flyway:
+    enabled: true
+    locations: classpath:db/migrate,db/data
+    baselineOnMigrate: true
 app:
   jwtSecret: test
   jwtExpirationInMs: 1000
