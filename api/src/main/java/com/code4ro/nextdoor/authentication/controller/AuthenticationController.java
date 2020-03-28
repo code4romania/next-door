@@ -6,6 +6,8 @@ import com.code4ro.nextdoor.authentication.dto.RegistrationRequest;
 import com.code4ro.nextdoor.authentication.entity.User;
 import com.code4ro.nextdoor.authentication.service.AuthenticationService;
 import com.code4ro.nextdoor.security.jwt.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
+@Api(value = "Authentication Controller")
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
@@ -37,6 +40,7 @@ public class AuthenticationController {
         this.tokenProvider = tokenProvider;
     }
 
+    @ApiOperation(value = "Register an user")
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegistrationRequest signUpRequest) {
         final User savedUser = authenticationService.register(signUpRequest);
@@ -47,6 +51,7 @@ public class AuthenticationController {
         return ResponseEntity.created(location).build();
     }
 
+    @ApiOperation(value = "Login user in application")
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponse> login(@Valid @RequestBody final LoginRequest loginRequest) {
         final Authentication authentication = authenticationManager.authenticate(
