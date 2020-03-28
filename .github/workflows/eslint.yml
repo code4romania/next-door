@@ -1,0 +1,31 @@
+name: ESLint Check
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    env:
+      working-directory: "./frontend"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install dependencies
+        working-directory: ${{env.working-directory}}
+        run: npm ci
+
+      - name: Run ESLint check
+        working-directory: ${{env.working-directory}}
+        run: npm run lint
+        env:
+          CI: true
