@@ -1,8 +1,15 @@
-# Project name
+# Next Door / MyHood app
 
 [![GitHub contributors](https://img.shields.io/github/contributors/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
 
-Insert bullets description of the project if available.
+The app is a community platform with two components - web app and native mobile app. The main purpose of this project is to grow neighbor communities and increase interaction and support between people living within the same zipcode in both calm and difficult times. The app allows users to 
+- join a hood 
+- see their neighbours
+- discuss with neighbours in groups or direct messages
+- receive updates from public authorities
+- receive updates from public and private utilities providers 
+- post help offers and help requests 
+- view directories of useful contacts and information
 
 [See the project live](insert_link_here)
 
