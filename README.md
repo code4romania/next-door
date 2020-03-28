@@ -1,29 +1,30 @@
 # Next Door / MyHood app
 
-[![GitHub contributors](https://img.shields.io/github/contributors/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/standard-repo-template.svg?style=for-the-badge)](https://github.com/code4romania/standard-repo-template/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
+[![GitHub contributors](https://img.shields.io/github/contributors/code4romania/next-door.svg?style=for-the-badge)](https://github.com/code4romania/next-door/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/next-door.svg?style=for-the-badge)](https://github.com/code4romania/next-door/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
 
-The app is a community platform with two components - web app and native mobile app. The main purpose of this project is to grow neighbor communities and increase interaction and support between people living within the same zipcode in both calm and difficult times. In emergency situations, like the pandemic we are facing or in the event of a major calamity like an earthquake, the closest people who can help are your neighbors. But other than very noisy social networks we do not really know who lives around us and who could help or might need help in difficult situations. 
+The app is a community platform with two components - web app and native mobile app. The main purpose of this project is to grow neighbor communities and increase interaction and support between people living within the same zipcode in both calm and difficult times. In emergency situations, like the pandemic we are facing or in the event of a major calamity like an earthquake, the closest people who can help are your neighbors. But other than very noisy social networks we do not really know who lives around us and who could help or might need help in difficult situations.
 
-The app allows users to 
-- join a hood 
+The app allows users to
+- join a hood
 - see their neighbours
 - discuss with neighbours in groups or direct messages
 - receive updates from public authorities
-- receive updates from public and private utilities providers 
-- post help offers and help requests 
+- receive updates from public and private utilities providers
+- post help offers and help requests
 - view directories of useful contacts and information
 
-In a second release of the app we aim to allow users to also add their local businesses in the app, create events and start joint activities. 
+In a second release of the app we aim to allow users to also add their local businesses in the app, create events and start joint activities.
 
 [Contributing](#contributing) | [Built with](#built-with) | [Repos and projects](#repos-and-projects) | [Deployment](#deployment) | [Feedback](#feedback) | [License](#license) | [About Code4Ro](#about-code4ro)
 
 ## Contributing
 
-This project is built by amazing volunteers and you can be one of them! Here's a list of ways in [which you can contribute to this project](.github/CONTRIBUTING.md).
+This project is built by amazing volunteers and you can be one of them! Here's a list of ways in [which you can contribute to this project](.github/CONTRIBUTING.md). If you want to make any change to this repository, please **make a fork first**.
 
-You can also list any pending features and planned improvements for the project here.
+If you would like to suggest new functionality, open an Issue and mark it as a __[Feature request]__. Please be specific about why you think this functionality will be of use. If you can, please include some visual description of what you would like the UI to look like, if you are suggesting new UI elements.
 
 ## Built With
+
 ### Programming languages
 Backend: Java 11
 ### Platforms
@@ -31,11 +32,11 @@ Spring 2.2
 ### Frontend framework
 React
 ### Package managers
-gradle
-
-yarn
+- gradle
+- yarn
 ### Database technology & provider
 MySQL
+
 ## Repos and projects
 
 Mention all related repos and projects.
