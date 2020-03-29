@@ -8,6 +8,7 @@ plugins {
 group = 'com.code4ro'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -21,6 +22,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:6.3.2'
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'org.apache.commons:commons-lang3'
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
@@ -29,6 +31,9 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // Needed for TestRestTemplate to work with 40x responses
+    testImplementation'org.apache.httpcomponents:httpclient'
 }
 
 test {
