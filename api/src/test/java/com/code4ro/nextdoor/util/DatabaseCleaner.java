@@ -112,14 +112,15 @@ class DatabaseCleaner {
     }
 
     private String dbEngineStatus() {
-        try (Connection connection = connectionSupplier.get(); Statement statement = connection.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("SHOW ENGINE INNODB STATUS")) {
-                StringBuilder status = new StringBuilder();
-                while (rs.next()) {
-                    status.append(rs.getString("Status")).append("||");
-                }
-                return status.toString();
+        try (Connection connection = connectionSupplier.get(); Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("SHOW ENGINE INNODB STATUS")) {
+
+            StringBuilder status = new StringBuilder();
+            while (rs.next()) {
+                status.append(rs.getString("Status")).append("||");
             }
+            return status.toString();
+
         } catch (SQLException e) {
             LOG.error("Failed to get DB engine status", e);
             return StringUtils.EMPTY;
@@ -131,6 +132,7 @@ class DatabaseCleaner {
     @NoArgsConstructor
     @AllArgsConstructor
     private static class TableRef {
+
         private String name;
     }
 }

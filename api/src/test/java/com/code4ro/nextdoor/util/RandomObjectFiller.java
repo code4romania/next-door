@@ -30,9 +30,11 @@ public class RandomObjectFiller {
         }
     }
 
-    public static <T> T createAndFillWithBaseEntity(Class<? extends BaseEntity> clazz) {
+    public static <T extends BaseEntity> T createAndFillWithBaseEntity(Class<T> clazz) {
         final T instance = (T) createAndFill(clazz);
-        ((BaseEntity) instance).setId(UUID.randomUUID());
+        if (instance != null) {
+            instance.setId(UUID.randomUUID());
+        }
         return instance;
     }
 
