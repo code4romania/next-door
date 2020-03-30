@@ -4,13 +4,13 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/nextdoor?serverTimezone=Europe/Bucharest
     username: root
-    password: root
+    password:
   jpa:
     hibernate:
       ddl-auto: update
   flyway:
-    enabled: true
-    locations: classpath:db/migrate,db/data
+    enabled: false
+    locations: classpath:db/migrate,classpath:db/data
     baselineOnMigrate: true
 app:
   jwtSecret: test
