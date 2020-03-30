@@ -47,6 +47,14 @@ Mention all related repos and projects.
 
 Guide users through getting your code up and running on their own system. In this section you can talk about:
 1. Installation process
+1.2 install [Docker](https://docs.docker.com/install/)
+1.3 install `docker-compose`
+  * with [pip](https://packaging.python.org/tutorials/installing-packages/): `pip install docker-compose`
+1.3  create and run docker images for all server dependencies (mysql for now):
+``` shell
+docker-compose -f etc/docker/docker-compose.yml up
+```
+
 2. Software dependencies
 3. Latest releases
 4. API references
