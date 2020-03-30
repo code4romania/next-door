@@ -14,4 +14,4 @@ spring:
     baselineOnMigrate: true
 app:
   jwtSecret: test
-  jwtExpirationInMs: 1000
+  jwtExpirationInMs: 86400000
