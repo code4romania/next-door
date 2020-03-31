@@ -1,5 +1,6 @@
 package com.code4ro.nextdoor.emergency.contact.service.impl;
 
+import com.code4ro.nextdoor.core.service.MapperService;
 import com.code4ro.nextdoor.emergency.contact.dto.EmergencyContactDto;
 import com.code4ro.nextdoor.emergency.contact.entity.EmergencyContact;
 import com.code4ro.nextdoor.emergency.contact.repository.EmergencyContactRepository;
@@ -15,18 +16,20 @@ import org.springframework.stereotype.Service;
 public class EmergencyContactServiceImpl implements EmergencyContactService {
 
     private final EmergencyContactRepository emergencyContactRepository;
+    private final MapperService mapperService;
 
     @Autowired
-    public EmergencyContactServiceImpl(EmergencyContactRepository emergencyContactRepository) {
+    public EmergencyContactServiceImpl(EmergencyContactRepository emergencyContactRepository, MapperService mapperService) {
         this.emergencyContactRepository = emergencyContactRepository;
+        this.mapperService = mapperService;
     }
 
     @Override
     public EmergencyContactDto save(EmergencyContactDto emergencyContactDto) {
-        EmergencyContact emergencyContact = mapDtoToEntity(emergencyContactDto);
-        EmergencyContact emergencyContactDB = emergencyContactRepository.save(emergencyContact);
+        final EmergencyContact emergencyContact = mapperService.map(emergencyContactDto, EmergencyContact.class);
+        final EmergencyContact emergencyContactDB = emergencyContactRepository.save(emergencyContact);
 
-        return mapEntityToDto(emergencyContactDB);
+        return mapperService.map(emergencyContactDB, EmergencyContactDto.class);
     }
 
     @Override
@@ -34,7 +37,7 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
         return emergencyContactRepository.findById(UUID.fromString(emergencyContactDto.getId()))
             .map(emergencyContact -> updateEntityWithDataFromDto(emergencyContact, emergencyContactDto))
             .map(emergencyContactRepository::save)
-            .map(this::mapEntityToDto)
+            .map(emergencyContact -> mapperService.map(emergencyContact, EmergencyContactDto.class))
             .orElseGet(() -> save(emergencyContactDto));
     }
 
@@ -46,36 +49,15 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
     @Override
     public Optional<EmergencyContactDto> findByUUID(String id) {
         return emergencyContactRepository.findById(UUID.fromString(id))
-            .map(this::mapEntityToDto);
+            .map(emergencyContact -> mapperService.map(emergencyContact, EmergencyContactDto.class));
     }
 
     @Override
     public List<EmergencyContactDto> findAll() {
         return emergencyContactRepository.findAll()
             .stream()
-            .map(this::mapEntityToDto)
+            .map(emergencyContact -> mapperService.map(emergencyContact, EmergencyContactDto.class))
             .collect(Collectors.toList());
-    }
-
-    private EmergencyContact mapDtoToEntity(EmergencyContactDto emergencyContactDto) {
-        return EmergencyContact.builder()
-            .name(emergencyContactDto.getName())
-            .surname(emergencyContactDto.getSurname())
-            .address(emergencyContactDto.getAddress())
-            .email(emergencyContactDto.getEmail())
-            .telephoneNumber(emergencyContactDto.getTelephoneNumber())
-            .build();
-    }
-
-    private EmergencyContactDto mapEntityToDto(EmergencyContact emergencyContact) {
-        return EmergencyContactDto.builder()
-            .id(String.valueOf(emergencyContact.getId()))
-            .name(emergencyContact.getName())
-            .surname(emergencyContact.getSurname())
-            .address(emergencyContact.getAddress())
-            .email(emergencyContact.getEmail())
-            .telephoneNumber(emergencyContact.getTelephoneNumber())
-            .build();
     }
 
     private EmergencyContact updateEntityWithDataFromDto(EmergencyContact emergencyContact, EmergencyContactDto emergencyContactDto) {
