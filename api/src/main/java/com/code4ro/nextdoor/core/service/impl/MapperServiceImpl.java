@@ -3,6 +3,8 @@ package com.code4ro.nextdoor.core.service.impl;
 import com.code4ro.nextdoor.core.dto.BaseEntityDto;
 import com.code4ro.nextdoor.core.entity.BaseEntity;
 import com.code4ro.nextdoor.core.service.MapperService;
+import com.code4ro.nextdoor.emergency.contact.dto.EmergencyContactDto;
+import com.code4ro.nextdoor.emergency.contact.entity.EmergencyContact;
 import com.code4ro.nextdoor.group.dto.GroupDto;
 import com.code4ro.nextdoor.group.dto.GroupSecurityPolicyDto;
 import com.code4ro.nextdoor.group.entity.Group;
@@ -41,6 +43,9 @@ public class MapperServiceImpl implements MapperService, ApplicationListener<Con
         modelMapper.createTypeMap(Group.class, GroupDto.class)
                 .includeBase(BaseEntity.class, BaseEntityDto.class);
         modelMapper.createTypeMap(GroupSecurityPolicy.class, GroupSecurityPolicyDto.class);
+
+        modelMapper.createTypeMap(EmergencyContact.class, EmergencyContactDto.class);
+        modelMapper.createTypeMap(EmergencyContactDto.class, EmergencyContact.class);
     }
 
     @Override
