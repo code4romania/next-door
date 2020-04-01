@@ -61,11 +61,10 @@ public class EmergencyContactServiceImpl implements EmergencyContactService {
     }
 
     private EmergencyContact updateEntityWithDataFromDto(EmergencyContact emergencyContact, EmergencyContactDto emergencyContactDto) {
-        emergencyContact.setAddress(emergencyContactDto.getAddress());
-        emergencyContact.setEmail(emergencyContactDto.getEmail());
+        emergencyContact.setFirstName(emergencyContactDto.getFirstName());
         emergencyContact.setSurname(emergencyContactDto.getSurname());
-        emergencyContact.setName(emergencyContactDto.getName());
-        emergencyContact.setName(emergencyContactDto.getName());
+        emergencyContact.setEmail(emergencyContactDto.getEmail());
+        emergencyContact.setAddress(emergencyContactDto.getAddress());
         emergencyContact.setTelephoneNumber(emergencyContactDto.getTelephoneNumber());
 
         return emergencyContact;

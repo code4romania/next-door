@@ -17,7 +17,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmergencyContact extends BaseEntity {
-    private String name;
+    private String firstName;
     private String surname;
     @Column(unique = true)
     private String email;

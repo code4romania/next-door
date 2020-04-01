@@ -14,7 +14,7 @@ import lombok.Setter;
 public class EmergencyContactDto {
     private String id;
 
-    private String name;
+    private String firstName;
     private String surname;
     private String email;
     private String address;
