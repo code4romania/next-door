@@ -7,6 +7,13 @@ spring:
   jpa:
     hibernate.ddl-auto: create-drop
     generate-ddl: true
+  flyway:
+    enabled: false
+    locations: classpath:db/migrate
+    baselineOnMigrate: true
 app:
-  jwtSecret: test
-  jwtExpirationInMs: 172800000
+  jwt:
+    secret: test
+    accessTokenExpirationInMs: 86400000
+    refreshTokenExpirationInMs: 30758400000
+

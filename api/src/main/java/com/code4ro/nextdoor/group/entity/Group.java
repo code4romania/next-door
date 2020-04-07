@@ -12,7 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Table(name = "groups")
+@Table(name = "nd_groups")
 @Entity
 @Getter
 @Setter

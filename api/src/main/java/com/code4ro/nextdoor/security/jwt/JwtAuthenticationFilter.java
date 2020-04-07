@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     final FilterChain filterChain) throws ServletException, IOException {
         try {
             final String jwt = getJwtFromRequest(request);
-            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            if (StringUtils.hasText(jwt) && tokenProvider.isValid(jwt)) {
                 final UUID userId = tokenProvider.getUserIdFromJWT(jwt);
                 final UserDetails userDetails = customUserDetailsService.loadUserById(userId);
                 final UsernamePasswordAuthenticationToken authentication =

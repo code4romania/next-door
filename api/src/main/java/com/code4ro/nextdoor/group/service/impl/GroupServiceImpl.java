@@ -5,9 +5,11 @@ import com.code4ro.nextdoor.group.dto.GroupCreateDto;
 import com.code4ro.nextdoor.group.dto.GroupDto;
 import com.code4ro.nextdoor.group.dto.GroupUpdateDto;
 import com.code4ro.nextdoor.group.entity.Group;
+import com.code4ro.nextdoor.group.entity.GroupSecurityPolicy;
 import com.code4ro.nextdoor.group.repository.GroupRepository;
 import com.code4ro.nextdoor.group.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +20,15 @@ import java.util.UUID;
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final MapperService mapperService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public GroupServiceImpl(final GroupRepository groupRepository,
-                            final MapperService mapperService) {
+                            final MapperService mapperService,
+                            final PasswordEncoder passwordEncoder) {
         this.groupRepository = groupRepository;
         this.mapperService = mapperService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,6 +37,10 @@ public class GroupServiceImpl implements GroupService {
         final Group group = mapperService.map(createDto, Group.class);
         if (group.getOpen()) {
             group.setSecurityPolicy(null);
+        } else {
+            final GroupSecurityPolicy securityPolicy = group.getSecurityPolicy();
+            final String rawAnswer = securityPolicy.getAnswer();
+            securityPolicy.setAnswer(passwordEncoder.encode(rawAnswer));
         }
 
         final Group savedGroup = groupRepository.save(group);

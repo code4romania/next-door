@@ -13,6 +13,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -29,6 +30,8 @@ public class GroupServiceTest {
     private GroupRepository groupRepository;
     @Mock
     private MapperService mapperService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private GroupServiceImpl groupService;
@@ -54,6 +57,7 @@ public class GroupServiceTest {
         final Group group = GroupFactory.createClosedGroup();
 
         when(mapperService.map(createDto, Group.class)).thenReturn(group);
+        when(passwordEncoder.encode(any())).thenReturn(UUID.randomUUID().toString());
 
         groupService.create(createDto);
 

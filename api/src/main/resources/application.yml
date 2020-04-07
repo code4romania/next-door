@@ -10,8 +10,10 @@ spring:
       ddl-auto: update
   flyway:
     enabled: true
-    locations: classpath:db/migrate,db/data
+    locations: classpath:db/migrate,classpath:db/data
     baselineOnMigrate: true
 app:
-  jwtSecret: test
-  jwtExpirationInMs: 1000
+  jwt:
+    secret: test
+    accessTokenExpirationInMs: 86400000
+    refreshTokenExpirationInMs: 30758400000
