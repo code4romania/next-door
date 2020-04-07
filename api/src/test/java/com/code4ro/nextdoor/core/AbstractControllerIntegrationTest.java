@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class AbstractControllerIntegrationTest {
+public abstract class AbstractControllerIntegrationTest {
     @Autowired
     protected MockMvc mvc;
 

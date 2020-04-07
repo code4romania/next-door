@@ -1,11 +1,11 @@
 package com.code4ro.nextdoor.security.jwt;
 
-import com.code4ro.nextdoor.security.entity.UserPrincipal;
+import com.code4ro.nextdoor.authentication.entity.RefreshToken;
+import com.code4ro.nextdoor.security.entity.RefreshTokenHolder;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,25 +15,40 @@ import java.util.UUID;
 public class JwtTokenProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${app.jwtSecret}")
+    @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
-    private int jwtExpirationInMs;
+    @Value("${app.jwt.accessTokenExpirationInMs}")
+    private long accessTokenExpirationInMs;
 
-    public String generateToken(final Authentication authentication) {
+    @Value("${app.jwt.refreshTokenExpirationInMs}")
+    private long refreshTokenExpirationInMs;
 
-        final UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
+    public String generateAccessToken(final UUID userId) {
         final Date now = new Date();
-        final Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        final Date expiryDate = new Date(now.getTime() + accessTokenExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getId().toString())
+                .setSubject(userId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    public RefreshTokenHolder generateRefreshToken(final UUID userId, final String refreshToken) {
+        final Date now = new Date();
+        final Date expiryDate = new Date(now.getTime() + refreshTokenExpirationInMs);
+
+        final String refreshTokenJwt = Jwts.builder()
+                .setId(refreshToken)
+                .setSubject(userId.toString())
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+        final RefreshToken refreshTokenEntity = new RefreshToken(userId.toString(), refreshToken, expiryDate);
+        return new RefreshTokenHolder(refreshTokenJwt, refreshTokenEntity);
     }
 
     public UUID getUserIdFromJWT(final String token) {
@@ -45,7 +60,16 @@ public class JwtTokenProvider {
         return UUID.fromString(claims.getSubject());
     }
 
-    public boolean validateToken(final String authToken) {
+    public String getRefreshTokenFromJWT(final String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getId();
+    }
+
+    public boolean isValid(final String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
@@ -60,6 +84,7 @@ public class JwtTokenProvider {
         } catch (IllegalArgumentException ex) {
             LOGGER.error("JWT claims string is empty.");
         }
+
         return false;
     }
 }

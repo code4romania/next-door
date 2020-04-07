@@ -5,4 +5,6 @@ import com.code4ro.nextdoor.authentication.entity.User;
 
 public interface AuthenticationService {
     User register(RegistrationRequest registrationRequest);
+
+    String getAccessToken(String refreshTokenJwt);
 }
