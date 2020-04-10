@@ -7,6 +7,8 @@ spring:
   jpa:
     hibernate.ddl-auto: create-drop
     generate-ddl: true
+  flyway:
+    enabled: false
 app:
   jwtSecret: test
   jwtExpirationInMs: 172800000
