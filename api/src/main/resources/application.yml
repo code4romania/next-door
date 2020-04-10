@@ -10,7 +10,7 @@ spring:
       ddl-auto: update
   flyway:
     enabled: true
-    locations: classpath:db/migrate,db/data
+    locations: classpath:db/migrate,classpath:db/data
     baselineOnMigrate: true
 app:
   jwtSecret: test
